@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>MeetMock</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+</head>
+<body>
+<h1>Bienvenu sur MeetMock <span id="userName" class="text-primary"></span> !</h1>
+
+<div id="matches" class="container mt-5 border border-3 rounded bg-light"></div>
+
+<script type="text/javascript">
+    function getParameterByName(name, url = window.location.href) {
+        name = name.replace(/[\[\]]/g, '\\$&');
+        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+
+    function updateMatches(httpRequest)  {
+        if (httpRequest.readyState === XMLHttpRequest.DONE) {
+            var status = httpRequest.status;
+            var content;
+            if(status == 200) {
+                var response = JSON.parse(httpRequest.responseText);
+                content = "<div>Votre profil match avec les personnes suivantes:\n";
+                content += "  <table class=\"table table-dark table-hover\">\n";
+                content += "    <thead>\n";
+                content += "      <tr>\n";
+                content += "        <th scope=\"col\">Nom</th>\n";
+                content += "        <th scope=\"col\">Handle</th>\n";
+                content += "      </tr>\n";
+                content += "    </thead>\n";
+                content += "    <tbody>\n";
+
+                response.forEach(user => {
+                    content += "      <tr>\n";
+                    content += "        <td>" + user.name + "</th>\n";
+                    content += "        <td><a href=\"https://twitter.com/" + user.twitter + "\">@" + user.twitter + "</a></th>\n";
+                    content += "      </tr>\n";
+                });
+
+                content += "    </tbody>\n";
+                content += "  </table>\n";
+            } else {
+                content = "<span class=\"text-danger fw-bold\">Une erreur est survenue.</span>"
+            }
+            document.getElementById('matches').innerHTML = content;
+        }
+    }
+
+    function loadMatches() {
+        var userName = getParameterByName('name');
+        var userCountry = getParameterByName('country');
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/api/matches?userName=' + encodeURIComponent(userName) + "&userCountry=" + encodeURIComponent(userCountry), true);
+        xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+        xhr.onreadystatechange = () => updateMatches(xhr);
+        xhr.send();
+
+        document.getElementById('userName').innerHTML = userName;
+    }
+
+    loadMatches();
+</script>
+</body>

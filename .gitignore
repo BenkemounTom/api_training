@@ -1,0 +1,20 @@
+# Maven
+target/
+
+# IntelliJ
+.idea/
+*.iml
+
+# Eclipse
+.settings/
+.metadata
+.loadpath
+.classpath
+.project
+
+# Mac OS
+.DS_Store
+._*
+
+# Misc
+*.swp
