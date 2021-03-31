@@ -9,16 +9,16 @@ import java.util.Random;
 @Repository
 class HelloRepository {
     final List<String> names = List.of(
-            "Jaguabyss",
-            "Coyolax",
-            "Gazena",
-            "Chickig",
-            "Gladiabat",
-            "Gladiafly",
-            "Steeleen",
-            "Marsharak",
-            "Berriot",
-            "Penguine"
+        "Jaguabyss",
+        "Coyolax",
+        "Gazena",
+        "Chickig",
+        "Gladiabat",
+        "Gladiafly",
+        "Steeleen",
+        "Marsharak",
+        "Berriot",
+        "Penguine"
     );
     private final Random random = new Random();
 

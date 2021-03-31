@@ -21,9 +21,9 @@ class HelloRepositoryTest {
 
     @ParameterizedTest
     @CsvSource({
-            "aby, aby",
-            "Broly, Broly Broly",
-            "cuevin, cuevin cuevin cuevin",
+        "aby, aby",
+        "Broly, Broly Broly",
+        "cuevin, cuevin cuevin cuevin",
     })
     void hello_for_name_repeats_it_according_to_its_first_letter(String inputName, String expectedOutputName) {
         HelloData helloData = helloRepository.getHelloFor(inputName);
